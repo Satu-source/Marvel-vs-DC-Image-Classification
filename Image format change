@@ -1,0 +1,31 @@
+# 2024 image-conversion prototype. Original absolute paths replaced with placeholders.
+#Changing image format
+import os
+from PIL import Image
+
+def convert_webp_to_jpg(source_directory, target_directory):
+    if not os.path.exists(target_directory):
+        os.makedirs(target_directory)
+    for root, _, files in os.walk(source_directory):
+        for file in files:
+            if file.endswith('.webp'):
+                webp_path = os.path.join(root, file)
+                jpg_path = os.path.join(target_directory, os.path.splitext(file)[0] + '.jpg')
+                try:
+                    image = Image.open(webp_path).convert('RGB')
+                    image.save(jpg_path, 'JPEG')
+                    print(f"Converted {webp_path} to {jpg_path}")
+                except Exception as e:
+                    print(f"Failed to convert {webp_path}: {e}")
+
+# Paths for DC Aquaman images
+source_dir_dc = r"REPLACE_WITH_PROJECT_ROOT\DC\Aquaman (2018)"
+target_dir_dc = r"REPLACE_WITH_PROJECT_ROOT\DC\Aquaman_(2018)_jpg_format"
+
+# Paths for Marvel Doctor Strange images
+source_dir_marvel = r"REPLACE_WITH_PROJECT_ROOT\Marvel\Doctor Strange in the Multiverse of Madness (2022)"
+target_dir_marvel = r"REPLACE_WITH_PROJECT_ROOT\Marvel\Doctor_strange_in_the_multiverse_of_madness_jpg_format"
+
+# Convert images
+convert_webp_to_jpg(source_dir_dc, target_dir_dc)
+convert_webp_to_jpg(source_dir_marvel, target_dir_marvel)
